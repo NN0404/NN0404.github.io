@@ -9,7 +9,7 @@ export const initPDFViewer = (pdfPath, pdfjsLib) => {
       pdfDoc.getPage(i).then(page => {
         const canvas = document.createElement("canvas");
         const context = canvas.getContext("2d");
-        const viewport = page.getViewport({ scale: 1 });
+        const viewport = page.getViewport({ scale: 1.8 });
 
         canvas.width = viewport.width;
         canvas.height = viewport.height;
@@ -27,3 +27,4 @@ export const initPDFViewer = (pdfPath, pdfjsLib) => {
     $("#pdfViewerDiv").html(`<p style="color:red;">Failed to load PDF.</p>`);
   });
 };
+
