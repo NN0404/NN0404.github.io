@@ -1,9 +1,9 @@
 
-    initPDFViewer=()=>{
-        $("pdfViewerDiv").html("")
+    export const initPDFViewer=()=>{
+        $("#pdfViewerDiv").html("")
         pdfjsLib.getDocument("/Electricity and Magnetism/EMTheory_Resnick.pdf").promise.then(pdfDoc=>{
 
-            let pages = pdfDoc._pdfInfo.numPages
+            let pages = pdfDoc.numPages
             for(let i=1;i<=pages;i++) {
 
                 pdfDoc.getPage(i).then(page=>{
@@ -28,9 +28,3 @@
         console.log(pdfErr)
         })
     }
-
-
-
-    $(function(){
-        initPDFViewer()
-    })
