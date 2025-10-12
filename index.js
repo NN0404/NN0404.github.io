@@ -1,29 +1,29 @@
-export const initPDFViewer = () => {
-  $("#pdfViewerDiv").html("");
+export const initPDFViewer = (pdfPath, pdfjsLib) => {
+  $("#pdfViewerDiv").html("<p>Loading PDF...</p>");
 
-  pdfjsLib.getDocument("/Electricity and Magnetism/EMTheory_Resnick.pdf").promise.then(pdfDoc => {
-    let numPages = pdfDoc.numPages;
+  pdfjsLib.getDocument(pdfPath).promise.then(pdfDoc => {
+    $("#pdfViewerDiv").html(""); // clear “Loading” text
+    const numPages = pdfDoc.numPages;
 
     for (let i = 1; i <= numPages; i++) {
       pdfDoc.getPage(i).then(page => {
-        const pdfCanvas = document.createElement("canvas");
-        const context = pdfCanvas.getContext("2d");
-        const viewport = page.getViewport({ scale: 1.2 });
+        const canvas = document.createElement("canvas");
+        const context = canvas.getContext("2d");
+        const viewport = page.getViewport({ scale: 1 });
 
-        pdfCanvas.width = viewport.width;
-        pdfCanvas.height = viewport.height;
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
 
-        $("#pdfViewerDiv").append(pdfCanvas);
+        $("#pdfViewerDiv").append(canvas);
 
         page.render({
           canvasContext: context,
           viewport: viewport
         });
-      }).catch(pageErr => {
-        console.error("Error rendering page:", pageErr);
       });
     }
-  }).catch(pdfErr => {
-    console.error("Error loading PDF:", pdfErr);
+  }).catch(err => {
+    console.error("PDF load error:", err);
+    $("#pdfViewerDiv").html(`<p style="color:red;">Failed to load PDF.</p>`);
   });
 };
