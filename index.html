@@ -1,63 +1,33 @@
 <!doctype html>
-<html class="no-js" lang="">
-
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title></title>
-  <link rel="stylesheet" href="css/style.css">
-  <meta name="description" content="">
+  <title>PDF.js Viewer</title>
 
-  <meta property="og:title" content="">
-  <meta property="og:type" content="">
-  <meta property="og:url" content="">
-  <meta property="og:image" content="">
-  <meta property="og:image:alt" content="">
+  <!-- jQuery (only once) -->
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
 
-  <link rel="icon" href="/favicon.ico" sizes="any">
-  <link rel="icon" href="/icon.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="icon.png">
+  <!-- PDF.js and your app -->
+  <script type="module">
+    // 1. Import PDF.js from your local folder
+    import * as pdfjsLib from './pdfjs-viewer/pdf.mjs';
 
-  <link rel="manifest" href="site.webmanifest">
-  <meta name="theme-color" content="#fafafa">
+    // 2. Set worker path (also in pdfjs-viewer/)
+    pdfjsLib.GlobalWorkerOptions.workerSrc = './pdfjs-viewer/pdf.worker.mjs';
 
-<script src="https://cdn.jsdelivr.net/combine/npm/jquery@3,npm/pdfjs-dist@5"></script>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@5/wasm/openjpeg_nowasm_fallback.min.js"></script>
+    // 3. Import your custom PDF viewer logic
+    import { initPDFViewer } from './index.js';
 
-<script type="module">
-        // 1. Import PDF.js
-        import * as pdfjsLib from './pdfjs-viewer/pdf.mjs';
-
-        // 2. Set the path to the worker script
-        pdfjsLib.GlobalWorkerOptions.workerSrc = './pdfjs-viewer/pdf.worker.mjs';
-
-        // 3. Import your custom function from index.js
-        import { initPDFViewer } from './index.js';
-
-        // 4. Run the function when the page loads
-        window.addEventListener('load', initPDFViewer);
-  
+    // 4. Run it after page load
+    window.addEventListener('load', initPDFViewer);
+  </script>
 </head>
 
 <body>
+  <h2>PDF.js Viewer Demo</h2>
 
-  <!-- Add your site or application content here -->
-  <p>Hello world! This is HTML5 Boilerplate.</p>
-
-
-//<!-- <p><a href="/Electricity and Magnetism/EMTheory_Resnick.pdf" target="_blank">Electricity and Magnetism - Serway</a></p> -->
-
-  <p>
-    <a href="/Electricity and Magnetism/EMTheory_Resnick.pdf" target="_blank" type="application/pdf">
-        Electricity and Magnetism - Serway
-    </a>
-</p>
-  
-//<embed src="Electricity and Magnetism/EMTheory_Resnick.pdf" type="application/pdf" width="100%" height="800px" />
-  
-  <script src="index.js"></script>
-
+  <!-- The div where your PDF canvases will be added -->
+  <div id="pdfViewerDiv"></div>
 </body>
-
 </html>
