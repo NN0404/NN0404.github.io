@@ -1,30 +1,29 @@
+export const initPDFViewer = () => {
+  $("#pdfViewerDiv").html("");
 
-    export const initPDFViewer=()=>{
-        $("#pdfViewerDiv").html("")
-        pdfjsLib.getDocument("/Electricity and Magnetism/EMTheory_Resnick.pdf").promise.then(pdfDoc=>{
+  pdfjsLib.getDocument("/Electricity and Magnetism/EMTheory_Resnick.pdf").promise.then(pdfDoc => {
+    let numPages = pdfDoc.numPages;
 
-            let pages = pdfDoc.numPages
-            for(let i=1;i<=pages;i++) {
+    for (let i = 1; i <= numPages; i++) {
+      pdfDoc.getPage(i).then(page => {
+        const pdfCanvas = document.createElement("canvas");
+        const context = pdfCanvas.getContext("2d");
+        const viewport = page.getViewport({ scale: 1.2 });
 
-                pdfDoc.getPage(i).then(page=>{
+        pdfCanvas.width = viewport.width;
+        pdfCanvas.height = viewport.height;
 
-                    let pdfCanvas = document.createElement("canvas")
-                    let context = pdfCanvas.getContext("2d")
-                    let pageViewPort = page.getViewport({scale:1})
+        $("#pdfViewerDiv").append(pdfCanvas);
 
-                    pdfCanvas.width = pageViewPort.width
-                    pdfCanvas.height = pageViewPort.height
-                    $("#pdfViewerDiv").append(pdfCanvas)
-                    page.render({
-                        canvasContext:context,
-                        viewport:pageViewPort
-                    })
-                }).catch(pageErr=>{
-                    console.log(pageErr)
-                })
-            }
-
-        }).catch(pdfErr=>{
-        console.log(pdfErr)
-        })
+        page.render({
+          canvasContext: context,
+          viewport: viewport
+        });
+      }).catch(pageErr => {
+        console.error("Error rendering page:", pageErr);
+      });
     }
+  }).catch(pdfErr => {
+    console.error("Error loading PDF:", pdfErr);
+  });
+};
