@@ -3,31 +3,57 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>PDF.js Viewer</title>
+  <title>PDF Library</title>
 
-  <!-- jQuery (only once) -->
   <script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
 
-  <!-- PDF.js and your app -->
+  <style>
+    body { font-family: "Times New Roman", Times, serif; margin: 20px; background: #f9f9f9; }
+    .pdf-list { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
+    .pdf-item {
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background: white;
+      padding: 10px 15px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .pdf-item:hover { background: #eef; }
+    #pdfViewerDiv canvas { display: block; margin: 10px auto; box-shadow: 0 0 5px rgba(0,0,0,0.3); }
+  </style>
+
   <script type="module">
-    // 1. Import PDF.js from your local folder
     import * as pdfjsLib from './pdfjs-viewer/pdf.mjs';
-
-    // 2. Set worker path (also in pdfjs-viewer/)
     pdfjsLib.GlobalWorkerOptions.workerSrc = './pdfjs-viewer/pdf.worker.mjs';
-
-    // 3. Import your custom PDF viewer logic
     import { initPDFViewer } from './index.js';
 
-    // 4. Run it after page load
-    window.addEventListener('load', initPDFViewer);
+    // When page loads
+    window.addEventListener('load', () => {
+      // List of your PDFs (you can add as many as you like)
+      const pdfFiles = [
+        { name: "EM Theory (Resnick)", path: "./Electricity and Magnetism/EMTheory_Resnick.pdf" },
+        { name: "Halliday - E&M", path: "./Electricity and Magnetism/Halliday.pdf" },
+        //{ name: "Kinematics", path: "./Mechanics/Kinematics.pdf" }
+      ];
+
+      // Display as clickable boxes
+      const listDiv = document.querySelector(".pdf-list");
+      pdfFiles.forEach(file => {
+        const box = document.createElement("div");
+        box.className = "pdf-item";
+        box.textContent = file.name;
+        box.addEventListener("click", () => initPDFViewer(file.path, pdfjsLib));
+        listDiv.appendChild(box);
+      });
+    });
   </script>
 </head>
 
 <body>
-  <h2>PDF.js Viewer Demo</h2>
+  <h2>📚 My PDF Library</h2>
 
-  <!-- The div where your PDF canvases will be added -->
+  <div class="pdf-list"></div>
+
   <div id="pdfViewerDiv"></div>
 </body>
 </html>
