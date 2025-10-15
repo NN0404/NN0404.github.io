@@ -5,40 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>PDF Library</title>
 
+  <!-- External CSS -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- jQuery -->
   <script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
 
-  <style>
-    body { font-family: "Times New Roman", Times, serif; margin: 20px; background: #f9f9f9; }
-    .pdf-list { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
-    .pdf-item {
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      background: white;
-      padding: 10px 15px;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-    .pdf-item:hover { background: #eef; }
-    #pdfViewerDiv canvas { display: block; margin: 10px auto; box-shadow: 0 0 5px rgba(0,0,0,0.3); }
-  </style>
-
+  <!-- PDF.js Viewer setup -->
   <script type="module">
     import * as pdfjsLib from './pdfjs-viewer/pdf.mjs';
     pdfjsLib.GlobalWorkerOptions.workerSrc = './pdfjs-viewer/pdf.worker.mjs';
     import { initPDFViewer } from './index.js';
 
-    // When page loads
     window.addEventListener('load', () => {
-      // List of your PDFs (you can add as many as you like)
       const pdfFiles = [
         { name: "EM Theory - Serway", path: "./Electricity and Magnetism/EMTheory_Resnick.pdf" },
         { name: "Halliday - E&M", path: "./Electricity and Magnetism/Halliday.pdf" },
         { name: "Phương trình vi phân", path: "./General Math/PTVP.pdf" },
-        { name: "Xác suất thống kê", path: "./General Math/XSTK.pdf"},
-        //{ name: "Kinematics", path: "./Mechanics/Kinematics.pdf" }
+        { name: "Xác suất thống kê", path: "./General Math/XSTK.pdf" }
       ];
 
-      // Display as clickable boxes
       const listDiv = document.querySelector(".pdf-list");
       pdfFiles.forEach(file => {
         const box = document.createElement("div");
@@ -52,10 +38,8 @@
 </head>
 
 <body>
-  <h2>Storage</h2>
-
+  <h2>📚 My PDF Library</h2>
   <div class="pdf-list"></div>
-
   <div id="pdfViewerDiv"></div>
 </body>
 </html>
