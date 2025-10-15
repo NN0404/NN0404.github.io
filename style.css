@@ -1,0 +1,31 @@
+body {
+  font-family: "Times New Roman", Times, serif;
+  margin: 20px;
+  background: #f9f9f9;
+}
+
+.pdf-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.pdf-item {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background: white;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.pdf-item:hover {
+  background: #eef;
+}
+
+#pdfViewerDiv canvas {
+  display: block;
+  margin: 10px auto;
+  box-shadow: 0 0 5px rgba(0,0,0,0.3);
+}
